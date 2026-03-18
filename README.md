@@ -1,7 +1,7 @@
 
-# Kubernetes Enterprise Assessment Toolkit
+# Kasten - Kubernetes Assessment
 
-Designed for Veeam / Kasten pre‑sales discovery.
+Designed for Kasten pre‑sales discovery.
 
 ## Workflow
 
@@ -23,4 +23,4 @@ cluster_inventory.json
 architecture_diagram.png
 maturity_scorecard.json
 
-These files can be used to produce an executive assessment report.
+These files can be used to produce an assessment report.
