@@ -118,26 +118,39 @@ try:
 except:
     report["snapshot_support"] = False
 
-# Include helper command snippets for Kasten K10
-try:
-    with open("commands.md", "r") as f:
-        report["commands_md"] = f.read().strip()
-except Exception:
-    report["commands_md"] = ""
+# Collect Kasten K10 inventory helper command output
+k10_inventory = {
+    "storagerepositories": run("kubectl get storagerepositories.kio.kasten.io -n kasten-io"),
+    "restorepoints_namespace_based": run("kubectl get restorepoints -A -l '!k10.kasten.io/addType'"),
+    "restorepoints_vm_based": run("kubectl get restorepoints -A -l k10.kasten.io/appType=virtualMachine"),
+    "applications": run("kubectl get applications.apps.kio.kasten.io -A"),
+    "profiles": run("kubectl get profiles.config.kio.kasten.io -n kasten-io"),
+    "policies": run("kubectl get policies.config.kio.kasten.io -n kasten-io"),
+    "actionsets": run("kubectl get actionsets -n kasten-io"),
+    "blueprints": run("kubectl get blueprints.cr.kanister.io -n kasten-io"),
+}
+report["k10_inventory"] = k10_inventory
 
 with open("cluster_inventory.json","w") as f:
     json.dump(report,f,indent=2)
 
-# Generate a standalone HTML report with embedded commands
+# Generate an HTML report from the template and embed all K10 command output
 try:
     with open("report_template.html", "r") as f:
         tpl = f.read()
-    commands_html = html.escape(report.get("commands_md", ""))
-    report_html = tpl.replace("{{COMMANDS}}", commands_html)
+    content = []
+    for label, text in report.get("k10_inventory", {}).items():
+        output_text = text.strip() or "(none)"
+        content.append(f"<div class=\"k10-command-item\"><h3>{label.replace('_', ' ').title()}</h3><pre>{html.escape(output_text)}</pre></div>")
+    if not content:
+        content.append("<p>No Kasten K10 inventory data was collected.</p>")
+    report_html = tpl.replace("{{K10_COMMANDS}}", "\n".join(content))
     with open("report.html", "w") as f:
         f.write(report_html)
-except Exception:
-    pass
+except FileNotFoundError:
+    print("WARNING: report_template.html not found. Skipping HTML report generation.")
+except Exception as e:
+    print(f"WARNING: Could not generate report.html: {e}")
 
 # Run Kasten K10 primer
 print("Running Kasten K10 primer...")

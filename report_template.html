@@ -4,8 +4,11 @@
 <title>Kubernetes Cyber Resilience Assessment</title>
 <style>
 body {font-family: Arial; margin:40px;}
-h1 {color:#00a5e0;}
+h1 {color:green;}
 .section {margin-bottom:30px;}
+.k10-command-item {border:1px solid #ddd; background:#f9f9f9; padding:12px; margin-bottom:16px; border-radius:6px;}
+.k10-command-item h3 {margin:0 0 8px 0; font-size:1.05rem; color:#003366;}
+.k10-command-item pre {background:#fff; padding:10px; border:1px solid #ccc; overflow:auto; max-height:260px;}
 </style>
 </head>
 <body>
@@ -28,8 +31,13 @@ h1 {color:#00a5e0;}
 </div>
 
 <div class="section">
-<h2>Kasten K10 Helper Commands</h2>
-<pre>{{COMMANDS}}</pre>
+<h2>Recommended Architecture</h2>
+<p>Kubernetes Cluster → Kasten K10 → Object Storage → DR Cluster</p>
+</div>
+
+<div class="section">
+<h2>Kasten K10 Inventory Command Output</h2>
+<pre>{{K10_COMMANDS}}</pre>
 </div>
 
 </body>

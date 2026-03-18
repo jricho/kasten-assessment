@@ -16,7 +16,8 @@ overall = sum(score.values())/len(score)
 
 result = {
     "scores": score,
-    "overall_score": round(overall,2)
+    "overall_score": round(overall,2),
+    "k10_inventory": data.get("k10_inventory", {})
 }
 
 with open("maturity_scorecard.json","w") as f:
