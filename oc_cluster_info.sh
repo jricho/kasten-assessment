@@ -58,6 +58,7 @@ oc get crd; echo -e "\n"
 echo -e "${bold}${green}${icon_csi}  CSI Drivers  ${reset}\n$line"
 oc get csidriver; echo -e "\n"
 
+# CSI Nodes
 echo -e "${bold}${green}${icon_csi}  CSI Nodes  ${reset}\n$line"
 oc get csinodes; echo -e "\n"
 
@@ -65,18 +66,36 @@ oc get csinodes; echo -e "\n"
 echo -e "${bold}${green}${icon_snap}  VolumeSnapshotClass  ${reset}\n$line"
 oc get volumesnapshotclass || echo "(none)"; echo -e "\n"
 
-# Kasten K10 Namespaces
-echo -e "${bold}${green}${icon_ns}  Kasten K10 Namespaces  ${reset}\n$line"
-oc get ns | grep -E 'kasten|k10' || echo "(none)"; echo -e "\n"
+# Storage Repositories
+echo -e "${bold}${green}${icon_kasten}  Storage Repositories  ${reset}\n$line"
+oc get storagerepositories.kio.kasten.io -n kasten-io 2>/dev/null || echo "(none)"; echo -e "\n"
 
-# Kasten K10 Inventory (if present)
-if oc get ns | grep -q 'kasten-io'; then
-  echo -e "${bold}${yellow}${icon_kasten}  Kasten K10 Inventory  ${reset}\n$line"
-  for r in storagerepositories.kio.kasten.io restorepoints applications.apps.kio.kasten.io profiles.config.kio.kasten.io policies.config.kio.kasten.io actionsets blueprints.cr.kanister.io; do
-    echo -e "${bold}Resource:${reset} $r"
-    oc get "$r" -A 2>/dev/null || echo "(none)"
-    echo -e "\n"
-  done
-fi
+# RestorePoints
+echo -e "${bold}${green}${icon_kasten}  Namespace-based RestorePoints  ${reset}\n$line"
+oc get restorepoints -A -l '!k10.kasten.io/addType' 2>/dev/null || echo "(none)"; echo -e "\n"
+
+# VM-based RestorePoints
+echo -e "${bold}${green}${icon_kasten}  VM-based RestorePoints  ${reset}\n$line"
+oc get restorepoints -A -l k10.kasten.io/appType=virtualMachine 2>/dev/null || echo "(none)"; echo -e "\n"
+
+# Discovered Applications
+echo -e "${bold}${green}${icon_kasten}  Discovered Applications  ${reset}\n$line"
+oc get applications.apps.kio.kasten.io -A 2>/dev/null || echo "(none)"; echo -e "\n"
+
+# Profiles
+echo -e "${bold}${green}${icon_kasten}  Profiles  ${reset}\n$line"
+oc get profiles.config.kio.kasten.io -n kasten-io 2>/dev/null || echo "(none)"; echo -e "\n"
+
+# Policies
+echo -e "${bold}${green}${icon_kasten}  Policies  ${reset}\n$line"
+oc get policies.config.kio.kasten.io -n kasten-io 2>/dev/null || echo "(none)"; echo -e "\n"
+
+# ActionSets
+echo -e "${bold}${green}${icon_kasten}  ActionSets  ${reset}\n$line"
+oc get actionsets -n kasten-io 2>/dev/null || echo "(none)"; echo -e "\n"
+
+# Blueprints
+echo -e "${bold}${green}${icon_kasten}  Blueprints  ${reset}\n$line"
+oc get blueprints.cr.kanister.io -n kasten-io 2>/dev/null || echo "(none)"; echo -e "\n"
 
 echo -e "${bold}${blue}${icon_info} ==== End of Report ====${reset}\n$line\n"
