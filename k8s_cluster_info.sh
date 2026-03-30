@@ -50,6 +50,22 @@ kubectl get pods -n kasten-io -o wide; echo -e "\n"
 echo -e "${bold}${green}${icon_pvc}  PersistentVolumeClaims (PVCs)  ${reset}\n$line"
 kubectl get pvc -A -o wide; echo -e "\n"
 
+# Roles
+echo -e "${bold}${green}${icon_crd}  Roles  ${reset}\n$line"
+kubectl get roles -n kasten-io; echo -e "\n"
+
+# RoleBindings
+echo -e "${bold}${green}${icon_crd}  RoleBindings  ${reset}\n$line"
+kubectl get rolebindings -n kasten-io; echo -e "\n"
+
+# ClusterRoles (filtered)
+echo -e "${bold}${green}${icon_k8s}  ClusterRoles (kasten/csi/k10)  ${reset}\n$line"
+kubectl get clusterrole | grep -Ei 'kasten|csi|k10' || echo "(none)"; echo -e "\n"
+
+# ClusterRoleBindings (filtered)
+echo -e "${bold}${green}${icon_k8s}  ClusterRoleBindings (kasten/csi/k10)  ${reset}\n$line"
+kubectl get clusterrolebinding | grep -Ei 'kasten|csi|k10' || echo "(none)"; echo -e "\n"
+
 # CRDs
 echo -e "${bold}${green}${icon_crd}  CustomResourceDefinitions (CRDs)  ${reset}\n$line"
 kubectl get crd; echo -e "\n"

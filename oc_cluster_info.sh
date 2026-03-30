@@ -50,9 +50,25 @@ oc get pods -A -o wide; echo -e "\n"
 echo -e "${bold}${green}${icon_pvc}  PersistentVolumeClaims (PVCs)  ${reset}\n$line"
 oc get pvc -A -o wide; echo -e "\n"
 
+# Roles
+echo -e "${bold}${green}${icon_crd}  Roles  ${reset}\n$line"
+oc get roles -n kasten-io; echo -e "\n"
+
+# RoleBindings
+echo -e "${bold}${green}${icon_crd}  RoleBindings  ${reset}\n$line"
+oc get rolebindings -n kasten-io; echo -e "\n"
+
+# ClusterRoles (filtered)
+echo -e "${bold}${green}${icon_k8s}  ClusterRoles (kasten/csi/k10)  ${reset}\n$line"
+oc get clusterrole | grep -Ei 'kasten|csi|k10' || echo "(none)"; echo -e "\n"
+
+# ClusterRoleBindings (filtered)
+echo -e "${bold}${green}${icon_k8s}  ClusterRoleBindings (kasten/csi/k10)  ${reset}\n$line"
+oc get clusterrolebinding | grep -Ei 'kasten|csi|k10' || echo "(none)"; echo -e "\n"
+
 # CRDs
 echo -e "${bold}${green}${icon_crd}  CustomResourceDefinitions (CRDs)  ${reset}\n$line"
-oc get crd; echo -e "\n"
+oc get customresourcedefinitions; echo -e "\n"
 
 # CSI Drivers
 echo -e "${bold}${green}${icon_csi}  CSI Drivers  ${reset}\n$line"
