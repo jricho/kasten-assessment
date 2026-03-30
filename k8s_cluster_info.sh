@@ -68,11 +68,30 @@ kubectl get volumesnapshotclass || echo "(none)"; echo -e "\n"
 # Kasten K10 Inventory (if present)
 if kubectl get ns | grep -q 'kasten-io'; then
   echo -e "${bold}${yellow}${icon_kasten}  Kasten K10 Inventory  ${reset}\n$line"
-  for r in storagerepositories.kio.kasten.io restorepoints applications.apps.kio.kasten.io profiles.config.kio.kasten.io policies.config.kio.kasten.io actionsets blueprints.cr.kanister.io; do
-    echo -e "${bold}Resource:${reset} $r"
-    kubectl get "$r" -A 2>/dev/null || echo "(none)"
-    echo -e "\n"
-  done
+
+  echo -e "${bold}${icon_kasten}  Storage Repositories  ${reset}\n$line"
+  kubectl get storagerepositories.kio.kasten.io -n kasten-io 2>/dev/null || echo "(none)"; echo -e "\n"
+
+  echo -e "${bold}${icon_kasten}  Namespace-based RestorePoints  ${reset}\n$line"
+  kubectl get restorepoints -A -l '!k10.kasten.io/addType' 2>/dev/null || echo "(none)"; echo -e "\n"
+
+  echo -e "${bold}${icon_kasten}  VM-based RestorePoints  ${reset}\n$line"
+  kubectl get restorepoints -A -l k10.kasten.io/appType=virtualMachine 2>/dev/null || echo "(none)"; echo -e "\n"
+
+  echo -e "${bold}${icon_kasten}  Discovered Applications  ${reset}\n$line"
+  kubectl get applications.apps.kio.kasten.io -A 2>/dev/null || echo "(none)"; echo -e "\n"
+
+  echo -e "${bold}${icon_kasten}  Profiles  ${reset}\n$line"
+  kubectl get profiles.config.kio.kasten.io -n kasten-io 2>/dev/null || echo "(none)"; echo -e "\n"
+
+  echo -e "${bold}${icon_kasten}  Policies  ${reset}\n$line"
+  kubectl get policies.config.kio.kasten.io -n kasten-io 2>/dev/null || echo "(none)"; echo -e "\n"
+
+  echo -e "${bold}${icon_kasten}  ActionSets  ${reset}\n$line"
+  kubectl get actionsets -n kasten-io 2>/dev/null || echo "(none)"; echo -e "\n"
+
+  echo -e "${bold}${icon_kasten}  Blueprints  ${reset}\n$line"
+  kubectl get blueprints.cr.kanister.io -n kasten-io 2>/dev/null || echo "(none)"; echo -e "\n"
 fi
 
 echo -e "${bold}${blue}${icon_info} ==== End of Report ====${reset}\n$line\n"
