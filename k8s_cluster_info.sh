@@ -88,7 +88,7 @@ kubectl get volumesnapshotclass || echo "(none)"; echo -e "\n"
 
 # Storage Repositories
 echo -e "${bold}${green}${icon_kasten}  Storage Repositories  ${reset}\n$line"
-kubectl get storagerepositories.kio.kasten.io -A 2>/dev/null || echo "(none)"; echo -e "\n"
+kubectl get storagerepositories.repositories.kio.kasten.io -A 2>/dev/null || echo "(none)"; echo -e "\n"
 
 # RestorePoints
 echo -e "${bold}${green}${icon_kasten}  Namespace-based RestorePoints  ${reset}\n$line"
