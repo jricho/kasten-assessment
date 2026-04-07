@@ -78,6 +78,10 @@ oc get csidriver; echo -e "\n"
 echo -e "${bold}${green}${icon_csi}  CSI Nodes  ${reset}\n$line"
 oc get csinodes; echo -e "\n"
 
+# Storage Classes
+echo -e "${bold}${green}${icon_csi}  Storage Classes  ${reset}\n$line"
+oc get storageclass; echo -e "\n"
+
 # VolumeSnapshotClass
 echo -e "${bold}${green}${icon_snap}  VolumeSnapshotClass  ${reset}\n$line"
 oc get volumesnapshotclass || echo "(none)"; echo -e "\n"

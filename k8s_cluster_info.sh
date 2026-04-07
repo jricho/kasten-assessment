@@ -78,13 +78,17 @@ kubectl get csidriver; echo -e "\n"
 echo -e "${bold}${green}${icon_csi}  CSI Nodes  ${reset}\n$line"
 kubectl get csinodes; echo -e "\n"
 
+# Storage Classes
+echo -e "${bold}${green}${icon_csi}  Storage Classes  ${reset}\n$line"
+kubectl get storageclass; echo -e "\n"
+
 # VolumeSnapshotClass
 echo -e "${bold}${green}${icon_snap}  VolumeSnapshotClass  ${reset}\n$line"
 kubectl get volumesnapshotclass || echo "(none)"; echo -e "\n"
 
 # Storage Repositories
 echo -e "${bold}${green}${icon_kasten}  Storage Repositories  ${reset}\n$line"
-kubectl get storagerepositories.kio.kasten.io -n kasten-io 2>/dev/null || echo "(none)"; echo -e "\n"
+kubectl get storagerepositories.kio.kasten.io -A 2>/dev/null || echo "(none)"; echo -e "\n"
 
 # RestorePoints
 echo -e "${bold}${green}${icon_kasten}  Namespace-based RestorePoints  ${reset}\n$line"
